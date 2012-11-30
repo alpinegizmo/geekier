@@ -1,0 +1,1 @@
+See the [wiki](https://github.com/rulesio/geekier/wiki/Home).
