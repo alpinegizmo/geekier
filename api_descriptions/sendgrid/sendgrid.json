@@ -1,0 +1,104 @@
+{
+    "apis": [
+        {
+            "description": "", 
+            "operations": [
+                {
+                    "errorResponses": [
+                      {
+                          "code": 400,
+                          "reason": "Parameter error",
+                          "details": "body"
+                      }, 
+                      {
+                          "code": 500,
+                          "retry": 5,
+                          "reason": "API call was unsuccessful"
+                      }
+                    ], 
+                    "httpMethod": "POST", 
+                    "nickname": "send email", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "your user_id", 
+                            "name": "api_user", 
+                            "paramType": "query", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "your api_key", 
+                            "name": "api_key", 
+                            "paramType": "query", 
+                            "required": true
+                        },  
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "The subject of your email", 
+                            "name": "subject", 
+                            "paramType": "query", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "A valid RFC 2822 formatted date", 
+                            "name": "date", 
+                            "paramType": "query", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "The actual content of your email", 
+                            "name": "text", 
+                            "paramType": "query", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "This is where the email will appear to originate from for your recipient", 
+                            "name": "from", 
+                            "paramType": "query", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "This name is appended to the from email field", 
+                            "name": "fromname", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Email address of your recipient", 
+                            "name": "to", 
+                            "paramType": "query", 
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "This name is appended to the to email field", 
+                            "name": "toname", 
+                            "paramType": "query", 
+                            "required": false
+                        }
+                    ], 
+                    "summary": "Send text email to one recipient"
+                }, 
+            ], 
+            "path": "/mail.send.json"
+        }
+    ], 
+    "basePath": "https://sendgrid.com/api",
+    "resourcePath": "", 
+    "swaggerVersion": "1.1"
+}
