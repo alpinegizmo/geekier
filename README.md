@@ -14,7 +14,7 @@ The job of API factories is to turn the machine-readable api description into ob
 Here you can find the [ruby implementation of the factory](https://github.com/rulesio/geekier_factory_gem)
 
 #Participate
-Please join us in the [Geekier Google group](https://groups.google.com/forum/?fromgroups=#!forum/geekier-apis)
+Please join us in the [Geekier Google group](https://groups.google.com/d/forum/geekier-apis)
 
 Also feel free to contribute to the api_description folder - by forking and sending pull requests for example - and to provide more implementations of API factories so that everyone can play.
 

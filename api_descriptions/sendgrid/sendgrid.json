@@ -1,21 +1,10 @@
 {
     "apis": [
         {
-            "description": "", 
+            "description": "Mail sending", 
+            "authentication": "required",
             "operations": [
                 {
-                    "errorResponses": [
-                      {
-                          "code": 400,
-                          "reason": "Parameter error",
-                          "details": "body"
-                      }, 
-                      {
-                          "code": 500,
-                          "retry": 5,
-                          "reason": "API call was unsuccessful"
-                      }
-                    ], 
                     "httpMethod": "POST", 
                     "nickname": "send email", 
                     "parameters": [
@@ -96,8 +85,643 @@
                 }, 
             ], 
             "path": "/mail.send.json"
+        },
+        {
+            "description": "Retrieve and delete entries in the Blocks list.",
+            "path": "/blocks.{action}.json",
+            "authentication": "required",
+            "operations": [
+                {
+                    "httpMethod": "GET", 
+                    "nickname": "list blocks", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Describe the action you want to take", 
+                            "name": "action", 
+                            "paramType": "path", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["get"],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "int", 
+                            "description": "Retrieve the timestamp of the Block records. It will return a date in a MySQL timestamp format - YYYY-MM-DD HH:MM:SS", 
+                            "name": "date", 
+                            "paramType": "query", 
+                            "required": false,
+                            "allowableValues": {
+                                "values": [1],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "int", 
+                            "description": "Number of days in the past for which to retrieve blocks (includes today)", 
+                            "name": "days", 
+                            "paramType": "query", 
+                            "required": false,
+                            "allowableValues": {
+                                "min": 1,
+                                "valueType": "RANGE"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Date must be in YYYY-MM-DD format and be earlier than the end_date parameter. The start of the date range for which to retrieve blocks.", 
+                            "name": "start_date", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Date must be in YYYY-MM-DD format and be later than the start_date parameter. The end of the date range for which to retrieve blocks.", 
+                            "name": "end_date", 
+                            "paramType": "query", 
+                            "required": false
+                        }
+                    ],
+                    "summary": "Retrieve entries in the Blocks list."
+                },
+                {
+                    "httpMethod": "POST", 
+                    "nickname": "delete block", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Describe the action you want to take", 
+                            "name": "action", 
+                            "paramType": "path", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["delete"],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Must be a valid user account email. Email block address to remove", 
+                            "name": "email", 
+                            "paramType": "query", 
+                            "required": true
+                        }
+                    ],
+                    "summary": "Delete one entry in the Blocks list."
+                }
+            ]
+        },
+        {
+            "description": "Retrieve and delete entries in the Invalid Emails list.",
+            "path": "/invalidemails.{action}.json",
+            "authentication": "required",
+            "operations": [
+                {
+                    "httpMethod": "GET", 
+                    "nickname": "list invalid emails", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Describe the action you want to take", 
+                            "name": "action", 
+                            "paramType": "path", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["get"],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "int", 
+                            "description": "Retrieve the timestamp of the Invalid Email records. It will return a date in a MySQL timestamp format - YYYY-MM-DD HH:MM:SS", 
+                            "name": "date", 
+                            "paramType": "query", 
+                            "required": false,
+                            "allowableValues": {
+                                "values": [1],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "int", 
+                            "description": "Number of days in the past for which to retrieve Invalid Emails (includes today)", 
+                            "name": "days", 
+                            "paramType": "query", 
+                            "required": false,
+                            "allowableValues": {
+                                "min": 1,
+                                "valueType": "RANGE"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Date must be in YYYY-MM-DD format and be earlier than the end_date parameter. The start of the date range for which to retrieve Invalid Emails.", 
+                            "name": "start_date", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Date must be in YYYY-MM-DD format and be later than the start_date parameter. The end of the date range for which to retrieve Invalid Emails.", 
+                            "name": "end_date", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "int", 
+                            "description": "Limit the number of results returned.", 
+                            "name": "limit", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "int", 
+                            "description": "Beginning point in the list to retrieve from.", 
+                            "name": "offset", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "email address (eg. testing@example.com) to search for.", 
+                            "name": "email", 
+                            "paramType": "query", 
+                            "required": false
+                        }
+                    ],
+                    "summary": "Retrieve entries in the Invalid Emails list."
+                },
+                {
+                    "httpMethod": "POST", 
+                    "nickname": "delete invalid email", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Describe the action you want to take", 
+                            "name": "action", 
+                            "paramType": "path", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["delete"],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Must be a valid user account email. Email Invalid Emails address to remove", 
+                            "name": "email", 
+                            "paramType": "query", 
+                            "required": true
+                        }
+                    ],
+                    "summary": "Delete one entry in the Invalid Emails list."
+                }
+            ]
+        },
+        {
+            "description": "Retrieve and delete entries in the Bounces list.",
+            "path": "/bounces.{action}.json",
+            "authentication": "required",
+            "operations": [
+                {
+                    "httpMethod": "GET", 
+                    "nickname": "list bounces", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Describe the action you want to take", 
+                            "name": "action", 
+                            "paramType": "path", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["get"],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "int", 
+                            "description": "Retrieve the timestamp of the Bounces records. It will return a date in a MySQL timestamp format - YYYY-MM-DD HH:MM:SS", 
+                            "name": "date", 
+                            "paramType": "query", 
+                            "required": false,
+                            "allowableValues": {
+                                "values": [1],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "int", 
+                            "description": "Number of days in the past for which to retrieve bounces (includes today)", 
+                            "name": "days", 
+                            "paramType": "query", 
+                            "required": false,
+                            "allowableValues": {
+                                "min": 1,
+                                "valueType": "RANGE"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Date must be in YYYY-MM-DD format and be earlier than the end_date parameter. The start of the date range for which to retrieve bounces.", 
+                            "name": "start_date", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Date must be in YYYY-MM-DD format and be later than the start_date parameter. The end of the date range for which to retrieve bounces.", 
+                            "name": "end_date", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "int", 
+                            "description": "Limit the number of results returned.", 
+                            "name": "limit", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "int", 
+                            "description": "Beginning point in the list to retrieve from.", 
+                            "name": "offset", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Choose the type of bounce to search for.", 
+                            "name": "type", 
+                            "paramType": "query", 
+                            "required": false,
+                            "allowableValues": {
+                                "paramType": "List",
+                                "values": [
+                                    "hard",
+                                    "soft"
+                                ]
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "email address (eg. testing@example.com) to search for.", 
+                            "name": "email", 
+                            "paramType": "query", 
+                            "required": false
+                        }
+                    ],
+                    "summary": "Retrieve entries in the Blocks list."
+                },
+                {
+                    "httpMethod": "POST", 
+                    "nickname": "delete bounces", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Describe the action you want to take", 
+                            "name": "action", 
+                            "paramType": "path", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["delete"],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Date must be in YYYY-MM-DD format and be earlier than the end_date parameter. The start of the date range for which to retrieve bounces.", 
+                            "name": "start_date", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Date must be in YYYY-MM-DD format and be later than the start_date parameter. The end of the date range for which to retrieve bounces.", 
+                            "name": "end_date", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Choose the type of bounce to search for.", 
+                            "name": "type", 
+                            "paramType": "query", 
+                            "required": false,
+                            "allowableValues": {
+                                "paramType": "List",
+                                "values": [
+                                    "hard",
+                                    "soft"
+                                ]
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Must be a valid user account email. Email block address to remove", 
+                            "name": "email", 
+                            "paramType": "query", 
+                            "required": false
+                        }
+                    ],
+                    "summary": "Delete one entry in the Bounce list. Please note that if no parameters are specified the ENTIRE list will be deleted."
+                },
+                {
+                    "httpMethod": "GET", 
+                    "nickname": "count bounces", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Describe the action you want to take", 
+                            "name": "action", 
+                            "paramType": "path", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["count"],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Date must be in YYYY-MM-DD format and be earlier than the end_date parameter. The start of the date range for which to retrieve bounces.", 
+                            "name": "start_date", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Date must be in YYYY-MM-DD format and be later than the start_date parameter. The end of the date range for which to retrieve bounces.", 
+                            "name": "end_date", 
+                            "paramType": "query", 
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Choose the type of bounce to search for.", 
+                            "name": "type", 
+                            "paramType": "query", 
+                            "required": false,
+                            "allowableValues": {
+                                "paramType": "List",
+                                "values": [
+                                    "hard",
+                                    "soft"
+                                ]
+                            }
+                        }
+                    ],
+                    "summary": "Count entries in the Bounce list."
+                }
+            ]
+        },
+        {
+            "description": "Retrieve, add, modify or delete permissions.",
+            "path": "/credentials/{action}.json",
+            "authentication": "required",
+            "operations": [
+                {
+                    "httpMethod": "GET", 
+                    "nickname": "list credentials", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Describe the action you want to take", 
+                            "name": "action", 
+                            "paramType": "path", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["get"],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "description": "Return permissions for that user",
+                            "name": "username",
+                            "paramType": "query",
+                            "required": false
+                        }
+                    ],
+                    "summary": "Retrieve a list of all credentials, or permissions for a specific credential."
+                },
+                {
+                    "httpMethod": "POST", 
+                    "nickname": "add credential", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Describe the action you want to take", 
+                            "name": "action", 
+                            "paramType": "path", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["add"],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "description": "username for the new account",
+                            "name": "username",
+                            "paramType": "query",
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "description": "password for the new account",
+                            "name": "password",
+                            "paramType": "query",
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false,
+                            "dataType": "Permision",
+                            "description": "Permissions for the new user.",
+                            "name": "permissions",
+                            "paramType": "query",
+                            "required": false
+                        }
+                    ],
+                    "summary": "Add a new set of credentials to your account."
+                },
+                {
+                    "httpMethod": "POST", 
+                    "nickname": "edit credential", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Describe the action you want to take", 
+                            "name": "action", 
+                            "paramType": "path", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["edit"],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "description": "existing credentials to edit",
+                            "name": "username",
+                            "paramType": "query",
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "description": "update the password",
+                            "name": "password",
+                            "paramType": "query",
+                            "required": false
+                        },
+                        {
+                            "allowMultiple": false,
+                            "dataType": "Permision",
+                            "description": "New permissions for the user.",
+                            "name": "permissions",
+                            "paramType": "query",
+                            "required": false
+                        }
+                    ],
+                    "summary": "Modify credentials for your account."
+                },
+                {
+                    "httpMethod": "POST", 
+                    "nickname": "delete credential", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "Describe the action you want to take", 
+                            "name": "action", 
+                            "paramType": "path", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["delete"],
+                                "valueType": "LIST"
+                            }
+                        },
+                        {
+                            "allowMultiple": false,
+                            "dataType": "string",
+                            "description": "The credential to remove",
+                            "name": "username",
+                            "paramType": "query",
+                            "required": true
+                        }
+                    ],
+                    "summary": "Remove a specific credential."
+                },
+            ]
         }
-    ], 
+    ],
+    "models": {
+        "Permission": {
+            "serializable": "json",
+            "properties": {
+                "email": {
+                    "type":"int",
+                    "description":"access to SMTP",
+                    "allowableValues": {
+                        "valueType":"LIST",
+                        "values": [0, 1]
+                    }
+                },
+                "api": {
+                    "type":"int",
+                    "description":"programmatic access",
+                    "allowableValues": {
+                        "valueType":"LIST",
+                        "values": [0, 1]
+                    }
+                },
+                "web": {
+                    "type":"int",
+                    "description":"web administration",
+                    "allowableValues": {
+                        "valueType":"LIST",
+                        "values": [0, 1]
+                    }
+                }
+            },
+            "id":"Permission"
+        }
+    },
+    "errorResponses": [
+        {
+          "code": 400,
+          "reason": "Parameter error",
+          "details": "body"
+        }, 
+        {
+          "code": 500,
+          "retry": 5,
+          "reason": "API call was unsuccessful"
+        }
+    ],
+    "authentication": {
+        "type": "Token",
+        "parameters": [
+            {
+                "allowMultiple": false, 
+                "dataType": "string", 
+                "description": "This is the same credential used for your SMTP settings, and for logging into the website.", 
+                "name": "api_user", 
+                "paramType": "query", 
+                "required": true
+            },
+            {
+                "allowMultiple": false, 
+                "dataType": "string", 
+                "description": "This is the same password to authenticate over SMTP, and for logging into the website.", 
+                "name": "api_key", 
+                "paramType": "query", 
+                "required": false
+            }
+        ],
+    },
     "basePath": "https://sendgrid.com/api",
     "resourcePath": "", 
     "swaggerVersion": "1.1"
