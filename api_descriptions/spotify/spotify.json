@@ -1,0 +1,151 @@
+{
+    "apis": [
+        {
+            "description": "Lookup", 
+            "operations": [
+                {
+                    "httpMethod": "GET", 
+                    "nickname": "lookup artist", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "artist URI", 
+                            "name": "uri", 
+                            "paramType": "query", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "extra information", 
+                            "name": "extras", 
+                            "paramType": "query", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["album", "albumdetail"],
+                                "valueType": "LIST"
+                            }
+                        }
+                    ], 
+                    "summary": "Lookup artist by URI with optional extra information"
+                }, 
+                {
+                    "httpMethod": "GET", 
+                    "nickname": "lookup album", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "album URI", 
+                            "name": "uri", 
+                            "paramType": "query", 
+                            "required": true
+                        }, 
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "extra information", 
+                            "name": "extras", 
+                            "paramType": "query", 
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["track", "trackdetail"],
+                                "valueType": "LIST"
+                            }
+                        }
+                    ], 
+                    "summary": "Lookup album by URI with optional extra information"
+                }, 
+                {
+                    "httpMethod": "GET", 
+                    "nickname": "lookup track", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "string", 
+                            "description": "track URI", 
+                            "name": "uri", 
+                            "paramType": "query", 
+                            "required": true
+                        }
+                    ], 
+                    "summary": "Lookup track by URI"
+                }, 
+            ], 
+            "path": "/lookup/1/.json"
+        },
+        {
+            "description": "Search objects",
+            "path": "/search/1/{object_type}.json",
+            "operations": [
+                {
+                    "httpMethod": "GET", 
+                    "nickname": "search", 
+                    "parameters": [
+                        {
+                            "allowMultiple": false,
+                            "dataType": "string", 
+                            "description": "object type", 
+                            "name": "object_type", 
+                            "paramType": "path",
+                            "required": true,
+                            "allowableValues": {
+                                "values": ["album", "artist", "track"],
+                                "valueType": "LIST"
+                            }
+                        },                        
+                        {
+                            "allowMultiple": false,
+                            "dataType": "string", 
+                            "description": "search string encoded in UTF-8", 
+                            "name": "q", 
+                            "paramType": "query",
+                            "required": true
+                        },
+                        {
+                            "allowMultiple": false, 
+                            "dataType": "int", 
+                            "description": "the page of the result set to return", 
+                            "name": "page", 
+                            "paramType": "query", 
+                            "required": false
+                        }
+                    ],
+                    "summary": "Search for albums, artists or tracks by search string."
+                }
+            ]
+        }
+    ],
+    "errorResponses": [
+        {
+            "code": 400,
+            "reason": "The request was not understood. Used for example when a required parameter was omitted."
+        }, 
+        {
+            "code": 403,
+            "retry": 5,
+            "reason": "The rate limiting has kicked in."
+        },
+        {
+            "code": 404,
+            "reason": "The requested resource was not found. Also used if a format is requested using the url and the format isn’t available."
+        },
+        {
+            "code": 406,
+            "reason": "The requested format isn’t available."
+        },
+        {
+            "code": 500,
+            "reason": "The server encountered an unexpected problem. Should not happen."
+        },
+        {
+            "code": 503,
+            "retry": 5,
+            "reason": "The API is temporarily unavailable."
+        }
+    ],
+    "basePath": "http://ws.spotify.com",
+    "resourcePath": "", 
+    "swaggerVersion": "1.1"
+}
